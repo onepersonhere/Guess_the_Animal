@@ -1,0 +1,4 @@
+# Project exclude paths
+/.gradle/
+/Guess the Animal/task/out/
+/Guess the Animal/task/out/production/classes/
