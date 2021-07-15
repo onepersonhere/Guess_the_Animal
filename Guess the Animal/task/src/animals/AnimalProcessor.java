@@ -2,6 +2,7 @@ package animals;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Locale;
 import java.util.Scanner;
 
 public class AnimalProcessor {
@@ -13,22 +14,31 @@ public class AnimalProcessor {
         String animal = "";
         //"Is it a/an <animal>?"
 
+        line = line.toLowerCase();
         if(line.split(" ").length > 1) {
-            animal = line.split(" ")[1];
-            if(line.split(" ")[0].contains("a")){
+            String[] arr = line.split(" ");
+            for(int i = 1; i < arr.length; i++){
+                animal += arr[i] + " ";
+            }
+            animal = animal.trim();
+
+            if(line.split(" ")[0].equals("a")){
                 //use a
                 animal = line;
-            }else if(line.split(" ")[0].contains("an")) {
+            }else if(line.split(" ")[0].equals("an")) {
                 //use an
                 animal = line;
-            }else {
+            }else if(line.split(" ")[0].equals("the")){
+                //if the
+                animal = getAnimal(cArr, animal);
+            }else{
                 //use cArr
                 //get the animal
+                animal = line;
                 animal = getAnimal(cArr, animal);
             }
         }else{
-            animal = line;
-            System.out.println("animal is " + animal);
+            animal = line.toLowerCase();
             animal = getAnimal(cArr, animal);
         }
         System.out.println("Is it " + animal + "?");
