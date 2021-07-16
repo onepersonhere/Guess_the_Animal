@@ -3,7 +3,7 @@ package animals;
 import java.util.Scanner;
 
 public class UserInputs {
-    public static void userInputs() {
+    public static boolean userInputs() {
         Scanner scanner = new Scanner(System.in);
 
         String[] positiveRes = {"y", "yes", "yeah", "yep", "sure", "right",
@@ -26,25 +26,19 @@ public class UserInputs {
         String answer = "";
         for (int i = 0; i < positiveRes.length; i++) {
             if (input.equals(positiveRes[i])) {
-                answer = "You answered: Yes";
-                break;
+                return true;
             }
         }
 
         for (int i = 0; i < negativeRes.length; i++) {
             if (input.equals(negativeRes[i])) {
-                answer = "You answered: No";
-                break;
+                return false;
             }
         }
 
-        if (answer.equals("")) {
-            //ask again to clarify
-            int prompt = (int) (Math.random() * 4);
-            System.out.println(promptQns[prompt]);
-            userInputs();
-        } else {
-            System.out.println(answer);
-        }
+        //ask again to clarify
+        int prompt = (int) (Math.random() * 4);
+        System.out.println(promptQns[prompt]);
+        return userInputs();
     }
 }

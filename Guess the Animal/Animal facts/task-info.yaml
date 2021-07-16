@@ -499,6 +499,15 @@ files:
         }
     }
   learner_created: true
+- name: src/animals/Animal.java
+  visible: true
+  learner_created: true
+- name: src/animals/Fact.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/132/stages/704/implement#comment
-status: Unchecked
-record: -1
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Fri, 16 Jul 2021 03:50:26 UTC
+record: 2

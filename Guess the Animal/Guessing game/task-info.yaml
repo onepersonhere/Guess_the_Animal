@@ -581,6 +581,260 @@ files:
       - If we do not want to play any more, then the program should exit.
 
   learner_created: false
+- name: src/animals/Animal.java
+  visible: true
+  text: |
+    package animals;
+
+    import java.util.ArrayList;
+    import java.util.List;
+
+    public class Animal {
+        private String animal;
+        private String name;
+        private List<String> fact = new ArrayList<>();
+
+        public Animal(String name) {
+            this.name = name;
+
+            String[] arr = name.split(" ");
+            animal = "";
+            for(int i = 1; i < arr.length; i++){
+                animal += arr[i] + " ";
+            }
+            animal = animal.trim();
+        }
+
+        public void addFact(String fact){
+            this.fact.add(fact);
+        }
+
+        public String getAnimal() {
+            return animal;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public List<String> getFact() {
+            return fact;
+        }
+
+        public void setAnimal(String animal) {
+            this.animal = animal;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public void setFact(List<String> fact) {
+            this.fact = fact;
+        }
+
+        @Override
+        public String toString(){
+            return name;
+        }
+    }
+  learner_created: true
+- name: src/animals/Fact.java
+  visible: true
+  text: |
+    package animals;
+
+    import java.util.List;
+    import java.util.Scanner;
+    import static animals.UserInputs.userInputs;
+
+    public class Fact {
+        public static void addFact(Animal animal1, Animal animal2){
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Specify a fact that distinguishes "
+                    + animal1 + " from " + animal2 + ".");
+            System.out.println("The sentence should be of the format:" +
+                    " 'It can/has/is ...'.");
+            String fact = scanner.nextLine();
+
+            String[] factArr = fact.split(" ");
+
+            fact = "";
+            for(int i = 2; i < factArr.length; i++){
+                fact += factArr[i] + " ";
+            }
+            fact = fact.trim();
+
+            if(factArr[1].equalsIgnoreCase("can")||
+                    factArr[1].equalsIgnoreCase("has")||
+                    factArr[1].equalsIgnoreCase("is")){
+                System.out.println("Is it correct for " + animal2 + "?");
+                if(userInputs()){
+                    animal2.addFact(factArr[1] + " " + fact); //can climb trees.
+                    animal1.addFact(checkFormat(factArr) + " " + fact);
+                }else{
+                    animal1.addFact(factArr[1] + " " + fact); //can climb trees.
+                    animal2.addFact(checkFormat(factArr) + " " + fact);
+                }
+                printAllFacts(animal1,animal2);
+                distinguish(factArr, fact);
+            }else{
+                showExamples(animal1,animal2);
+            }
+        }
+
+        private static void showExamples(Animal animal1, Animal animal2){
+            System.out.println("The examples of a statement:\n" +
+                    " - It can fly\n" +
+                    " - It has horn\n" +
+                    " - It is a mammal");
+            addFact(animal1,animal2);
+        }
+
+        private static String checkFormat(String[] factArr){
+            if(factArr[1].equalsIgnoreCase("can")){
+                return "can't";
+            }
+            else if(factArr[1].equalsIgnoreCase("has")){
+                return "doesn't have";
+            }
+            return "isn't";
+        }
+
+        private static void printAllFacts(Animal animal1, Animal animal2){
+            System.out.println("I learned the following facts about animals:");
+            System.out.println("- The " + animal1.getAnimal() +
+                    " " + animal1.getFact().get(0) + ".");
+            System.out.println("- The " + animal2.getAnimal() +
+                    " " + animal2.getFact().get(0) + ".");
+        }
+
+        private static void distinguish(String[] factArr, String fact){
+            System.out.println("I can distinguish these animals by asking the question:");
+
+            if(factArr[1].equalsIgnoreCase("can")){
+                System.out.println("- Can it " + fact + "?");
+            }else if(factArr[1].equalsIgnoreCase("has")){
+                System.out.println("- Does it have " + fact + "?");
+            }else if(factArr[1].equalsIgnoreCase("is")){
+                System.out.println("- Is it " + fact + "?");
+            }
+        }
+    }
+  learner_created: true
+- name: src/animals/UserInputs.java
+  visible: true
+  text: |
+    package animals;
+
+    import java.util.Scanner;
+
+    public class UserInputs {
+        public static boolean userInputs() {
+            Scanner scanner = new Scanner(System.in);
+
+            String[] positiveRes = {"y", "yes", "yeah", "yep", "sure", "right",
+                    "affirmative", "correct", "indeed", "you bet", "exactly",
+                    "you said it"};
+
+            String[] negativeRes = {"n", "no", "no way", "nah", "nope", "negative",
+                    "I don't think so", "yeah no"};
+
+            String[] promptQns = {"I'm not sure I caught you: was it yes or no?",
+                    "Funny, I still don't understand, is it yes or no?",
+                    "Oh, it's too complicated for me: just tell me yes or no.",
+                    "Could you please simply say yes or no?",
+                    "Oh, no, don't try to confuse me: say yes or no."};
+
+            String input = scanner.nextLine();
+
+            input = input.toLowerCase().replaceFirst("[^a-zA-Z ]", "").trim();
+            System.out.println(input);
+            String answer = "";
+            for (int i = 0; i < positiveRes.length; i++) {
+                if (input.equals(positiveRes[i])) {
+                    return true;
+                }
+            }
+
+            for (int i = 0; i < negativeRes.length; i++) {
+                if (input.equals(negativeRes[i])) {
+                    return false;
+                }
+            }
+
+            //ask again to clarify
+            int prompt = (int) (Math.random() * 4);
+            System.out.println(promptQns[prompt]);
+            return userInputs();
+        }
+    }
+  learner_created: true
+- name: src/animals/AnimalProcessor.java
+  visible: true
+  text: |
+    package animals;
+
+    import org.jetbrains.annotations.NotNull;
+    import java.util.Scanner;
+
+    public class AnimalProcessor {
+        public static String askForAnimal(){
+            Scanner scanner = new Scanner(System.in);
+            char[] cArr = {'a','e','i','o','u'};
+            String line = scanner.nextLine();
+            String animal = "";
+            //"Is it a/an <animal>?"
+
+            line = line.toLowerCase();
+            if(line.split(" ").length > 1) {
+                String[] arr = line.split(" ");
+                for(int i = 1; i < arr.length; i++){
+                    animal += arr[i] + " ";
+                }
+                animal = animal.trim();
+
+                if(line.split(" ")[0].equals("a")){
+                    //use a
+                    animal = line;
+                }else if(line.split(" ")[0].equals("an")) {
+                    //use an
+                    animal = line;
+                }else if(line.split(" ")[0].equals("the")){
+                    //if the
+                    animal = getAnimal(cArr, animal);
+                }else{
+                    //use cArr
+                    //get the animal
+                    animal = line;
+                    animal = getAnimal(cArr, animal);
+                }
+            }else{
+                animal = line.toLowerCase();
+                animal = getAnimal(cArr, animal);
+            }
+            return animal;
+        }
+
+        @NotNull
+        private static String getAnimal(char[] cArr, String animal) {
+            boolean isVowel = false;
+            for(int i = 0; i < cArr.length; i++) {
+                //System.out.println(animal.indexOf(0) + " " + cArr[i]);
+                if (animal.charAt(0) == cArr[i]){
+                    //use an
+                    animal = "an " + animal;
+                    isVowel = true;
+                    break;
+                }//else use arr
+            }
+            if(!isVowel){
+                animal = "a " + animal;
+            }
+            return animal;
+        }
+    }
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/132/stages/705/implement#comment
 status: Unchecked
 record: -1

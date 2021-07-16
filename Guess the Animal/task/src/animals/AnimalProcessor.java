@@ -1,15 +1,12 @@
 package animals;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Locale;
 import java.util.Scanner;
 
 public class AnimalProcessor {
-    public static void askForAnimal(){
+    public static String askForAnimal(){
         Scanner scanner = new Scanner(System.in);
         char[] cArr = {'a','e','i','o','u'};
-        System.out.println("Enter an animal:");
         String line = scanner.nextLine();
         String animal = "";
         //"Is it a/an <animal>?"
@@ -41,7 +38,7 @@ public class AnimalProcessor {
             animal = line.toLowerCase();
             animal = getAnimal(cArr, animal);
         }
-        System.out.println("Is it " + animal + "?");
+        return animal;
     }
 
     @NotNull

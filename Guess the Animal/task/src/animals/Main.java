@@ -3,17 +3,18 @@ package animals;
 import java.time.LocalTime;
 
 import static animals.AnimalProcessor.askForAnimal;
-import static animals.UserInputs.userInputs;
+import static animals.Fact.addFact;
 
 public class Main {
     public static void main(String args[]){
         //Greetings
         System.out.println(getTime());
-        //while(true) {
-            askForAnimal();
-            userInputs();
-            //break;
-        //}
+
+        System.out.println("Enter the first animal:");
+        Animal animal1 = new Animal(askForAnimal());
+        System.out.println("Enter the second animal:");
+        Animal animal2 = new Animal(askForAnimal());
+        addFact(animal1,animal2);
         bye();
     }
 
