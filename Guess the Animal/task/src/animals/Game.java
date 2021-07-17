@@ -31,6 +31,7 @@ public class Game {
                         "Let's play a game!\n" +
                         "You think of an animal, and I guess it.\n" +
                         "Press enter when you're ready.");
+
         new Scanner(System.in).nextLine(); //consumes the \n
 
         animal = tree.getAnimalRoot();
@@ -58,7 +59,7 @@ public class Game {
         new Scanner(System.in).nextLine(); //consumes the \n
 
         System.out.println(listOfAnimals);
-        TraverseBinaryTree.traverseTree(tree, tree.getRoot());
+        tree = TraverseBinaryTree.traverseTree(tree, tree.getRoot());
     }
 
     public void addListOfAnimals(Animal animal) {

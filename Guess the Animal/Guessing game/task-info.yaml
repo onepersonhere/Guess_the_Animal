@@ -838,38 +838,47 @@ files:
 - name: src/animals/Game.java
   visible: true
   learner_created: true
-- name: src/animals/BinaryTree/Node.java
-  visible: true
-  learner_created: true
-- name: src/animals/BinaryTree/BinaryTree.java
-  visible: true
-  learner_created: true
-- name: src/animals/BinaryTree/TraverseBinaryTree.java
-  visible: true
-  learner_created: true
-- name: src/animals/BinaryTree/ReverseBinaryTree.java
-  visible: true
-  learner_created: true
-- name: src/animals/BinaryTree/CreateBinaryTree.java
-  visible: true
-  learner_created: true
 feedback_link: https://hyperskill.org/projects/132/stages/705/implement#comment
 status: Failed
 feedback:
-  message: "Exception in test #5\n\njava.lang.NullPointerException\r\n\tat animals.BinaryTree.CreateBinaryTree.recursion(CreateBinaryTree.java:19)\r\
-    \n\tat animals.BinaryTree.BinaryTree.&lt;init&gt;(BinaryTree.java:18)\r\n\tat\
-    \ animals.Game.&lt;init&gt;(Game.java:41)\r\n\tat animals.Main.main(Main.java:15)\n\
-    \nPlease find below the output of your program during this failed test.\nNote\
-    \ that the &#39;&gt;&#39; character indicates the beginning of the input line.\n\
-    \n---\n\nScenario &#39;guessing-game&#39; is started.\n\nGood morning\n\nI want\
-    \ to learn about animals.\nWhich animal do you like most?\n&gt; cat\nWonderful!\
-    \ I&#39;ve learned so much about animals!Let&#39;s play a game!\nYou think of\
-    \ an animal, and I guess it.\nPress enter when you&#39;re ready.\n&gt; \nIs it\
-    \ a cat?\n&gt; No\nI give up. What animal do you have in mind?\n&gt; dog\nSpecify\
-    \ a fact that distinguishes a cat from a dog.\nThe sentence should be of the format:\
-    \ &#39;It can/has/is ...&#39;.\n&gt; it can climb trees\nIs it correct for a dog?\n\
-    &gt; no\nI learned the following facts about animals:\n- The cat can climb trees.\n\
-    - The dog can&#39;t climb trees.\nI can distinguish these animals by asking the\
-    \ question:\n- Can it climb trees?\nNice! I&#39;ve learned so much about animals!"
-  time: Sat, 17 Jul 2021 04:24:14 UTC
+  message: "Wrong answer in test #5\n\nThe program must assume that the animal is\
+    \ a dog.\r\nExpected contains: &quot;Is it a dog?&quot;\r\nActual data is: &quot;Does\
+    \ it have tassels on his ears?&quot;.\n\nPlease find below the output of your\
+    \ program during this failed test.\nNote that the &#39;&gt;&#39; character indicates\
+    \ the beginning of the input line.\n\n---\n\nScenario &#39;guessing-game&#39;\
+    \ is started.\n\nGood afternoon\n\nI want to learn about animals.\nWhich animal\
+    \ do you like most?\n&gt; cat\nWonderful! I&#39;ve learned so much about animals!Let&#39;s\
+    \ play a game!\nYou think of an animal, and I guess it.\nPress enter when you&#39;re\
+    \ ready.\n&gt; \nIs it a cat?\n&gt; No\nI give up. What animal do you have in\
+    \ mind?\n&gt; dog\nSpecify a fact that distinguishes a cat from a dog.\nThe sentence\
+    \ should be of the format: &#39;It can/has/is ...&#39;.\n&gt; it can climb trees\n\
+    Is it correct for a dog?\n&gt; no\nI learned the following facts about animals:\n\
+    - The cat can climb trees.\n- The dog can&#39;t climb trees.\nI can distinguish\
+    \ these animals by asking the question:\n- Can it climb trees?\nNice! I&#39;ve\
+    \ learned so much about animals!\n[a cat, a dog]\nFor a cat\n[can climb trees]\n\
+    {Can it climb trees?=true}\n[]\nCurrent Node: a cat\nFor a dog\n[can&#39;t climb\
+    \ trees]\n{Can it climb trees?=false}\n[]\nCurrent Node: a dog\nWould you like\
+    \ to play again?\n&gt; yes\nLet&#39;s play a game!\nYou think of an animal, and\
+    \ I guess it.\nPress enter when you&#39;re ready.\n&gt; \n[a cat, a dog]\nCan\
+    \ it climb trees?\n&gt; yes\nIs it a cat?\n&gt; no\nI give up. What animal do\
+    \ you have in mind?\n&gt; lynx\nSpecify a fact that distinguishes a cat from a\
+    \ lynx.\nThe sentence should be of the format: &#39;It can/has/is ...&#39;.\n\
+    &gt; it has tassels on his ears\nIs it correct for a lynx?\n&gt; yes\nI learned\
+    \ the following facts about animals:\n- The cat doesn&#39;t have tassels on his\
+    \ ears.\n- The lynx has tassels on his ears.\nI can distinguish these animals\
+    \ by asking the question:\n- Does it have tassels on his ears?\nNice! I&#39;ve\
+    \ learned so much about animals!\n[a cat, a dog, a lynx]\nFor a lynx\n[has tassels\
+    \ on his ears]\n{Does it have tassels on his ears?=true}\n[]\nCurrent Node: a\
+    \ lynx\nFor a cat\n[can climb trees, doesn&#39;t have tassels on his ears]\n{Can\
+    \ it climb trees?=true, Does it have tassels on his ears?=false}\n[]\na cat has\
+    \ more than one fact\nran!!!!!\nran!!!!!\nCurrent Node: Does it have tassels on\
+    \ his ears?\n[a cat, a dog, a lynx]\nFor a lynx\n[has tassels on his ears]\n{Does\
+    \ it have tassels on his ears?=true}\n[Does it have tassels on his ears?]\nCurrent\
+    \ Node: a lynx\nFor a cat\n[can climb trees, doesn&#39;t have tassels on his ears]\n\
+    {Can it climb trees?=true, Does it have tassels on his ears?=false}\n[Does it\
+    \ have tassels on his ears?]\nCurrent Node: a cat\nWould you like to play again?\n\
+    &gt; yes\nLet&#39;s play a game!\nYou think of an animal, and I guess it.\nPress\
+    \ enter when you&#39;re ready.\n&gt; \n[a cat, a dog, a lynx]\nCan it climb trees?\n\
+    &gt; no\nDoes it have tassels on his ears?"
+  time: Sat, 17 Jul 2021 06:34:49 UTC
 record: -1

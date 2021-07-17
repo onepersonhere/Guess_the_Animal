@@ -1,6 +1,7 @@
 package animals.BinaryTree;
 
 import animals.Animal;
+import animals.Fact;
 import animals.Game;
 import animals.Main;
 
@@ -14,6 +15,7 @@ public class CreateBinaryTree {
     public static List<String> qnsAcctFor = new ArrayList<>();
 
     public static Node recursion(String qns, Animal animal1, Animal animal2, Node currentNode){
+        //always start from the root
         Animal[] animals = new Animal[2];
         //find the animals from Map
         int m = 0;
@@ -28,11 +30,11 @@ public class CreateBinaryTree {
         animal2 = animals[1];
         //Node = root
         if(animal1.factMap.get(qns)){ //qns is true
-            currentNode.True = createTreeNodes(animal1,currentNode.True,qns);
-            currentNode.False = createTreeNodes(animal2,currentNode.False,qns);
+            currentNode.True = createTreeNodes(animal1,currentNode.True);
+            currentNode.False = createTreeNodes(animal2,currentNode.False);
         }else{ //qns is false
-            currentNode.True = createTreeNodes(animal2,currentNode.True,qns);
-            currentNode.False = createTreeNodes(animal1,currentNode.False,qns);
+            currentNode.True = createTreeNodes(animal2,currentNode.True);
+            currentNode.False = createTreeNodes(animal1,currentNode.False);
         }
 
         currentNode.True.Parent = currentNode;
@@ -40,7 +42,7 @@ public class CreateBinaryTree {
         return currentNode;
     }
 
-    private static Node createTreeNodes(Animal animal, Node currentNode, String Qns){
+    private static Node createTreeNodes(Animal animal, Node currentNode){
         boolean b = true;
         //At the start, both child nodes will be animals
         System.out.println("For " + animal);
@@ -49,23 +51,24 @@ public class CreateBinaryTree {
         System.out.println(qnsAcctFor);
 
         if(getSizeOfUnaccountedFacts(animal) > 1){
-            //if one of the child node has more than one unaccounted fact
+            //if one of the child node has more than one unaccounted qns
+            //aka might have child node
             System.out.println(animal + " has more than one fact");
-
-
             for(int i = 0; i < listOfFacts.size();i++){ //foreach fact in list of facts
                 String qns = listOfFacts.get(i); //the key to the map
-
                 boolean bool = true;//check if the qns is alr accounted for
                 for(int j = 0; j < qnsAcctFor.size();j++){
-                    if(qns.equals(qnsAcctFor.get(j)) || qns.equals(Qns)){
+                    if(qns.equals(qnsAcctFor.get(j))){
                         bool = false; //skip the qns that is accounted for
                     }
+                }
+                if(Main.getGame().tree.getRoot().obj.toString().equals(qns)){
+                    bool = false;
                 }
                 //if the qns == any from listOfFacts
                 if(bool && animal.factMap.containsKey(qns)) {
                     qnsAcctFor.add(qns);
-                    currentNode = new Node(qns);
+                    currentNode = new Node(qns);//
                     b = false;
                     break;
                 }

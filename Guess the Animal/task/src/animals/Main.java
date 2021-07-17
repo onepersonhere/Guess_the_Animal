@@ -7,10 +7,10 @@ import java.time.LocalTime;
 import static animals.UserInputs.userInputs;
 
 public class Main {
-    private static Game game = new Game();
+    private static Game game;
     public static void main(String args[]){
 
-
+        game = new Game();
         while(playAgain()){
             game.playGame();
         }
