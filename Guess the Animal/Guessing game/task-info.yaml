@@ -835,6 +835,41 @@ files:
         }
     }
   learner_created: true
+- name: src/animals/Game.java
+  visible: true
+  learner_created: true
+- name: src/animals/BinaryTree/Node.java
+  visible: true
+  learner_created: true
+- name: src/animals/BinaryTree/BinaryTree.java
+  visible: true
+  learner_created: true
+- name: src/animals/BinaryTree/TraverseBinaryTree.java
+  visible: true
+  learner_created: true
+- name: src/animals/BinaryTree/ReverseBinaryTree.java
+  visible: true
+  learner_created: true
+- name: src/animals/BinaryTree/CreateBinaryTree.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/132/stages/705/implement#comment
-status: Unchecked
+status: Failed
+feedback:
+  message: "Exception in test #5\n\njava.lang.NullPointerException\r\n\tat animals.BinaryTree.CreateBinaryTree.recursion(CreateBinaryTree.java:19)\r\
+    \n\tat animals.BinaryTree.BinaryTree.&lt;init&gt;(BinaryTree.java:18)\r\n\tat\
+    \ animals.Game.&lt;init&gt;(Game.java:41)\r\n\tat animals.Main.main(Main.java:15)\n\
+    \nPlease find below the output of your program during this failed test.\nNote\
+    \ that the &#39;&gt;&#39; character indicates the beginning of the input line.\n\
+    \n---\n\nScenario &#39;guessing-game&#39; is started.\n\nGood morning\n\nI want\
+    \ to learn about animals.\nWhich animal do you like most?\n&gt; cat\nWonderful!\
+    \ I&#39;ve learned so much about animals!Let&#39;s play a game!\nYou think of\
+    \ an animal, and I guess it.\nPress enter when you&#39;re ready.\n&gt; \nIs it\
+    \ a cat?\n&gt; No\nI give up. What animal do you have in mind?\n&gt; dog\nSpecify\
+    \ a fact that distinguishes a cat from a dog.\nThe sentence should be of the format:\
+    \ &#39;It can/has/is ...&#39;.\n&gt; it can climb trees\nIs it correct for a dog?\n\
+    &gt; no\nI learned the following facts about animals:\n- The cat can climb trees.\n\
+    - The dog can&#39;t climb trees.\nI can distinguish these animals by asking the\
+    \ question:\n- Can it climb trees?\nNice! I&#39;ve learned so much about animals!"
+  time: Sat, 17 Jul 2021 04:24:14 UTC
 record: -1

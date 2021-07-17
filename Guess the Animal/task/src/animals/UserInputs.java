@@ -21,17 +21,17 @@ public class UserInputs {
 
         String input = scanner.nextLine();
 
-        input = input.toLowerCase().replaceFirst("[^a-zA-Z ]", "").trim();
-        System.out.println(input);
+        input = input.toLowerCase().replaceFirst("[^a-zA-Z' ]", "").trim();
+        //System.out.println(input);
         String answer = "";
         for (int i = 0; i < positiveRes.length; i++) {
-            if (input.equals(positiveRes[i])) {
+            if (input.equalsIgnoreCase(positiveRes[i])) {
                 return true;
             }
         }
 
         for (int i = 0; i < negativeRes.length; i++) {
-            if (input.equals(negativeRes[i])) {
+            if (input.equalsIgnoreCase(negativeRes[i])) {
                 return false;
             }
         }

@@ -1,12 +1,22 @@
 package animals;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Animal {
     private String animal;
     private String name;
     private List<String> fact = new ArrayList<>();
+    public Map<String, Boolean> factMap = new HashMap<>();
+    //for testing only
+    public Animal(String animal, String name, List<String> fact, Map<String, Boolean> factMap){
+        this.animal = animal;
+        this.name = name;
+        this.fact = fact;
+        this.factMap = factMap;
+    }
 
     public Animal(String name) {
         this.name = name;
@@ -18,6 +28,8 @@ public class Animal {
         }
         animal = animal.trim();
     }
+
+    public Animal() {}
 
     public void addFact(String fact){
         this.fact.add(fact);

@@ -1,11 +1,14 @@
 package animals;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import static animals.UserInputs.userInputs;
 
 public class Fact {
-    public static void addFact(Animal animal1, Animal animal2){
+    //returns question
+    public static List<String> listOfFacts = new ArrayList<>();
+    public static String addFact(Animal animal1, Animal animal2){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Specify a fact that distinguishes "
                 + animal1 + " from " + animal2 + ".");
@@ -21,22 +24,41 @@ public class Fact {
         }
         fact = fact.trim();
 
-        if(factArr[1].equalsIgnoreCase("can")||
-                factArr[1].equalsIgnoreCase("has")||
-                factArr[1].equalsIgnoreCase("is")){
-            System.out.println("Is it correct for " + animal2 + "?");
-            if(userInputs()){
-                animal2.addFact(factArr[1] + " " + fact); //can climb trees.
-                animal1.addFact(checkFormat(factArr) + " " + fact);
+        String qns = "";
+        if(factArr.length > 1){
+            if(
+                    factArr[1].equalsIgnoreCase("can")||
+                    factArr[1].equalsIgnoreCase("has")||
+                    factArr[1].equalsIgnoreCase("is")
+            ){
+                System.out.println("Is it correct for " + animal2 + "?");
+                if(userInputs()){
+                    animal2.addFact(factArr[1] + " " + fact); //can climb trees.
+                    animal1.addFact(checkFormat(factArr) + " " + fact);
+
+                    printAllFacts(animal1,animal2);
+                    qns = distinguish(factArr, fact);
+                    animal1.factMap.put(qns, false);
+                    animal2.factMap.put(qns, true);
+                }else{
+                    animal1.addFact(factArr[1] + " " + fact); //can climb trees.
+
+                    animal2.addFact(checkFormat(factArr) + " " + fact);
+
+                    printAllFacts(animal1,animal2);
+                    qns = distinguish(factArr, fact);
+                    animal1.factMap.put(qns, true);
+                    animal2.factMap.put(qns, false);
+                }
+                listOfFacts.add(qns);
+                System.out.println("Nice! I've learned so much about animals!");
             }else{
-                animal1.addFact(factArr[1] + " " + fact); //can climb trees.
-                animal2.addFact(checkFormat(factArr) + " " + fact);
+                showExamples(animal1,animal2);
             }
-            printAllFacts(animal1,animal2);
-            distinguish(factArr, fact);
         }else{
             showExamples(animal1,animal2);
         }
+        return qns;
     }
 
     private static void showExamples(Animal animal1, Animal animal2){
@@ -60,20 +82,22 @@ public class Fact {
     private static void printAllFacts(Animal animal1, Animal animal2){
         System.out.println("I learned the following facts about animals:");
         System.out.println("- The " + animal1.getAnimal() +
-                " " + animal1.getFact().get(0) + ".");
+                " " + animal1.getFact().get(animal1.getFact().size()-1) + ".");
         System.out.println("- The " + animal2.getAnimal() +
-                " " + animal2.getFact().get(0) + ".");
+                " " + animal2.getFact().get(animal2.getFact().size()-1) + ".");
     }
 
-    private static void distinguish(String[] factArr, String fact){
+    private static String distinguish(String[] factArr, String fact){
         System.out.println("I can distinguish these animals by asking the question:");
-
+        String str = "";
         if(factArr[1].equalsIgnoreCase("can")){
-            System.out.println("- Can it " + fact + "?");
+            str = "Can it " + fact + "?";
         }else if(factArr[1].equalsIgnoreCase("has")){
-            System.out.println("- Does it have " + fact + "?");
+            str = "Does it have " + fact + "?";
         }else if(factArr[1].equalsIgnoreCase("is")){
-            System.out.println("- Is it " + fact + "?");
+            str = "Is it " + fact + "?";
         }
+        System.out.println("- "+str);
+        return str;
     }
 }
