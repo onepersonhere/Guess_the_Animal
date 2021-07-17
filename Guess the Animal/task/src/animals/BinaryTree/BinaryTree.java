@@ -14,8 +14,8 @@ public class BinaryTree {
 
     public BinaryTree(){}
     //create tree-
-    public BinaryTree(String qns, Animal animal1, Animal animal2, Node currentNode){ //creates a Tree
-        root = CreateBinaryTree.recursion(qns,animal1,animal2,currentNode);
+    public BinaryTree(Node currentNode){ //creates a Tree
+        root = CreateBinaryTree.recursion(currentNode, 0);
     }
     public BinaryTree(String test){
         root = new Node("Is it a mammal?");

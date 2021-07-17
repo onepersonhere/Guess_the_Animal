@@ -55,12 +55,6 @@ public class TraverseBinaryTree {
         //if true ask if its the Animal
         Animal animal = (Animal) currentNode.obj;
         if(!checkIfCorrect(animal)) {//if wrong
-            if(currentNode.Parent.True.obj == currentNode.obj){
-                currentNode = currentNode.Parent.False; //switch to the other node
-            }else{
-                currentNode = currentNode.Parent.True;
-            }
-
             if (currentNode.obj instanceof Animal) {
                 //if both are animals -> unknown animal
                 return unknownAnimal(animal);
@@ -93,8 +87,9 @@ public class TraverseBinaryTree {
         Animal animal2 = new Animal(askForAnimal());
         Main.getGame().addListOfAnimals(animal2);
 
-        String fact = addFact(animal,animal2);
+        addFact(animal,animal2);
 
-        return new BinaryTree(fact, animal, animal2, Main.getGame().tree.getRoot()); //animal is cat and lynx
+        CreateBinaryTree.qnsAcctFor.clear();
+        return new BinaryTree(Main.getGame().tree.getRoot());
     }
 }

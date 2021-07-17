@@ -44,7 +44,7 @@ public class Game {
 
             String fact = addFact(animal,animal2);
             tree.setRoot(new Node(fact));
-            tree = new BinaryTree(fact, animal, animal2, tree.getRoot());
+            tree = new BinaryTree(tree.getRoot());
         }else{
             System.out.println("AI Wins!");
             tree.setRoot(new Node(animal));

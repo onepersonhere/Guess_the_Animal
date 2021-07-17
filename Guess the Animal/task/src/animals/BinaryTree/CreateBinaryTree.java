@@ -14,20 +14,23 @@ public class CreateBinaryTree {
 
     public static List<String> qnsAcctFor = new ArrayList<>();
 
-    public static Node recursion(String qns, Animal animal1, Animal animal2, Node currentNode){
+    public static Node recursion(Node currentNode, int qnsIdx){
         //always start from the root
         Animal[] animals = new Animal[2];
         //find the animals from Map
         int m = 0;
-        System.out.println(Game.getListOfAnimals());
+        System.out.println(listOfFacts);
+        String qns = listOfFacts.get(qnsIdx);
+        System.out.println(qnsAcctFor);
+        System.out.println(Game.getListOfAnimals() + "\n");
         for (int i = 0; i < Game.getListOfAnimals().size(); i++) {
             if (Game.getListOfAnimals().get(i).factMap.containsKey(qns)) {
                 animals[m] = Game.getListOfAnimals().get(i);
                 m++;
             }
         }
-        animal1 = animals[0];
-        animal2 = animals[1];
+        Animal animal1 = animals[0];
+        Animal animal2 = animals[1];
         //Node = root
         if(animal1.factMap.get(qns)){ //qns is true
             currentNode.True = createTreeNodes(animal1,currentNode.True);
@@ -78,7 +81,7 @@ public class CreateBinaryTree {
             //size of animal == 1 or 0
             currentNode = new Node(animal);
         }
-        System.out.println("Current Node: " + currentNode);
+        System.out.println("Current Node: " + currentNode +"\n");
         currentNode = ifItsAQns(currentNode);
         return currentNode;
     }
@@ -102,7 +105,7 @@ public class CreateBinaryTree {
             }
             Animal animal1 = animals[0];
             Animal animal2 = animals[1];
-            currentNode = recursion(qns, animal1, animal2, currentNode);
+            currentNode = recursion(currentNode, listOfFacts.indexOf(qns));
         }
 
         return currentNode;
