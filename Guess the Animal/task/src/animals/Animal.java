@@ -61,6 +61,10 @@ public class Animal {
 
     @Override
     public String toString(){
-        return name;
+        if(animal != null) {
+            return name;
+        }else{
+            return "";
+        }
     }
 }

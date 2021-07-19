@@ -1,7 +1,6 @@
 package animals.BinaryTree;
 
 import animals.Animal;
-import animals.Fact;
 import animals.Game;
 import animals.Main;
 
@@ -24,6 +23,7 @@ public class CreateBinaryTree {
         System.out.println(qnsAcctFor);
         System.out.println(Game.getListOfAnimals() + "\n");
         for (int i = 0; i < Game.getListOfAnimals().size(); i++) {
+            System.out.println(Game.getListOfAnimals().get(i).factMap);
             if (Game.getListOfAnimals().get(i).factMap.containsKey(qns)) {
                 animals[m] = Game.getListOfAnimals().get(i);
                 m++;
@@ -32,6 +32,7 @@ public class CreateBinaryTree {
         Animal animal1 = animals[0];
         Animal animal2 = animals[1];
         //Node = root
+        System.out.println("Animal 0: " + animal1 + " Animal 1: " + animal2 );
         if(animal1.factMap.get(qns)){ //qns is true
             currentNode.True = createTreeNodes(animal1,currentNode.True);
             currentNode.False = createTreeNodes(animal2,currentNode.False);
@@ -65,7 +66,7 @@ public class CreateBinaryTree {
                         bool = false; //skip the qns that is accounted for
                     }
                 }
-                if(Main.getGame().tree.getRoot().obj.toString().equals(qns)){
+                if(BinaryTree.getRoot().data.equals(qns)){
                     bool = false;
                 }
                 //if the qns == any from listOfFacts
@@ -89,22 +90,8 @@ public class CreateBinaryTree {
         //currentNode.obj == qns
         //recursion here
 
-        if (currentNode.obj instanceof Animal) {
-        }
-        else {
-            String qns = (String) currentNode.obj;
-            Animal[] animals = new Animal[2];
-            //find the animals from Map
-            int m = 0;
-            //TODO: repeating the same qns over and over again
-            for (int i = 0; i < Game.getListOfAnimals().size(); i++) {
-                if (Game.getListOfAnimals().get(i).factMap.containsKey(qns)) {
-                    animals[m] = Game.getListOfAnimals().get(i);
-                    m++;
-                }
-            }
-            Animal animal1 = animals[0];
-            Animal animal2 = animals[1];
+        if (!checkIfAnimal(currentNode.data)) {
+            String qns = currentNode.data;
             currentNode = recursion(currentNode, listOfFacts.indexOf(qns));
         }
 
@@ -118,5 +105,13 @@ public class CreateBinaryTree {
             }
         }
         return size;
+    }
+    private static boolean checkIfAnimal(String str){
+        for(int i = 0; i < Game.getListOfAnimals().size(); i++){
+            if(Game.getListOfAnimals().get(i).toString().equals(str)){
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -1,5 +1,8 @@
 package animals;
 
+import animals.BinaryTree.BinaryTree;
+import animals.BinaryTree.Node;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -31,7 +34,7 @@ public class Fact {
                     factArr[1].equalsIgnoreCase("has")||
                     factArr[1].equalsIgnoreCase("is")
             ){
-                System.out.println("Is it correct for " + animal2 + "?");
+                System.out.println("Is the statement correct for " + animal2 + "?");
                 if(userInputs()){
                     animal2.addFact(factArr[1] + " " + fact); //can climb trees.
                     animal1.addFact(checkFormat(factArr) + " " + fact);
@@ -40,6 +43,7 @@ public class Fact {
                     qns = distinguish(factArr, fact);
                     animal1.factMap.put(qns, false);
                     animal2.factMap.put(qns, true);
+                    BinaryTree.setRoot(new Node(qns));
                 }else{
                     animal1.addFact(factArr[1] + " " + fact); //can climb trees.
 
@@ -49,7 +53,9 @@ public class Fact {
                     qns = distinguish(factArr, fact);
                     animal1.factMap.put(qns, true);
                     animal2.factMap.put(qns, false);
+                    BinaryTree.setRoot(new Node(qns));
                 }
+
                 listOfFacts.add(qns);
                 System.out.println("Nice! I've learned so much about animals!");
             }else{

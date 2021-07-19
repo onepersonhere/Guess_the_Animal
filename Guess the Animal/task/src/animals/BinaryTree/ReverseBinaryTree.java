@@ -9,7 +9,7 @@ import java.util.List;
 import static animals.Fact.listOfFacts;
 
 public class ReverseBinaryTree {
-
+/*
     static List<String> qnsAcctFor = new ArrayList<>();
 
     public static Node recursion(String qns, Animal animal1, Animal animal2, Node currentNode){
@@ -93,5 +93,5 @@ public class ReverseBinaryTree {
             }
         }
         return size;
-    }
+    }*/
 }

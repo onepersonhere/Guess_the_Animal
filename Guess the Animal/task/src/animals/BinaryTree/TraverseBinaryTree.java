@@ -10,25 +10,45 @@ import static animals.UserInputs.userInputs;
 
 public class TraverseBinaryTree {
     //WORKING AS INTENDED
+    private static boolean checkIfAnimal(String str){
+        for(int i = 0; i < Game.getListOfAnimals().size(); i++){
+            if(Game.getListOfAnimals().get(i).toString().equals(str)){
+                return true;
+            }
+        }
+        return false;
+    }
+    private static Animal findTheAnimal(String str){
+        for(int i = 0; i < Game.getListOfAnimals().size(); i++){
+            if(Game.getListOfAnimals().get(i).toString().equals(str)){
+                return Game.getListOfAnimals().get(i);
+            }
+        }
+        return null;
+    }
     private static boolean askTheQns(Node currentNode){
-        if(currentNode.obj instanceof Animal) {
-            return checkIfCorrect((Animal) currentNode.obj);
+        if(checkIfAnimal(currentNode.data)) {
+            return checkIfCorrect(currentNode.data);
         }else{
-            System.out.println(currentNode.obj.toString());
+            System.out.println(currentNode.data);
         }
         return false;
     }
     public static BinaryTree traverseTree(BinaryTree tree, Node currentNode){
-        //ask the fact (normally at root node)
-        boolean bool = askTheQns(currentNode);
+        //ask the qns (normally at root node)
+        boolean bool = false;
+        if(checkIfAnimal(currentNode.data)) {
+            bool = checkIfCorrect(currentNode.data);
+        }
         //receive answer yes or no
         //nav down the tree
-        //TODO: NOT CHECKED YET
-        if(!bool) {
-            if (userInputs()) {
+        if(!bool && !checkIfAnimal(currentNode.data)) {
+            System.out.println("1");
+            System.out.println(currentNode.data);
+            if (userInputs()) { //here its eating an input
                 //if yes
                 //test if root.true.obj is Animal
-                if (currentNode.True.obj instanceof Animal) {
+                if (checkIfAnimal(currentNode.data)) {
                     tree = askIfItsTheAnimal(tree, currentNode.True);
                 } else {
                     //ask that question
@@ -37,7 +57,7 @@ public class TraverseBinaryTree {
                     //... recursive?
                 }
             } else {
-                if (currentNode.False.obj instanceof Animal) {
+                if (checkIfAnimal(currentNode.data)) {
                     tree = askIfItsTheAnimal(tree, currentNode.False);
                 } else {
                     //ask that question
@@ -46,6 +66,8 @@ public class TraverseBinaryTree {
                     //... recursive?
                 }
             }
+        }else if(!bool && checkIfAnimal(currentNode.data)){
+            return unknownAnimal(findTheAnimal(currentNode.data));
         }
         //if animal and is no, then ask a new qns to create a new tree.
         return tree;
@@ -53,9 +75,14 @@ public class TraverseBinaryTree {
 
     private static BinaryTree askIfItsTheAnimal(BinaryTree tree, Node currentNode){
         //if true ask if its the Animal
-        Animal animal = (Animal) currentNode.obj;
-        if(!checkIfCorrect(animal)) {//if wrong
-            if (currentNode.obj instanceof Animal) {
+        Animal animal = null;
+        for(int i = 0; i < Game.getListOfAnimals().size(); i++){
+            if(Game.getListOfAnimals().get(i).toString().equals(currentNode.data)){
+                animal = Game.getListOfAnimals().get(i);
+            }
+        }
+        if(!checkIfCorrect(currentNode.data)) {//if wrong
+            if (checkIfAnimal(currentNode.data)) {
                 //if both are animals -> unknown animal
                 return unknownAnimal(animal);
             }else{
@@ -71,7 +98,7 @@ public class TraverseBinaryTree {
         return tree;
     }
 
-    private static boolean checkIfCorrect(Animal animal) {
+    private static boolean checkIfCorrect(String animal) {
         System.out.println("Is it " + animal + "?");
         if(userInputs()){ //correct Animal
             //if the animal is true, AI won
@@ -85,11 +112,11 @@ public class TraverseBinaryTree {
         //ask a new qns to create a new tree.
         System.out.println("I give up. What animal do you have in mind?");
         Animal animal2 = new Animal(askForAnimal());
-        Main.getGame().addListOfAnimals(animal2);
+        Game.addListOfAnimals(animal2);
 
         addFact(animal,animal2);
 
         CreateBinaryTree.qnsAcctFor.clear();
-        return new BinaryTree(Main.getGame().tree.getRoot());
+        return new BinaryTree(BinaryTree.getRoot());
     }
 }

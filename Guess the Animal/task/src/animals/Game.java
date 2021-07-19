@@ -18,6 +18,15 @@ public class Game {
     private static List<Animal> listOfAnimals = new ArrayList<>();
 
     public Game(){ //build node
+        if(FileINOUT.searchForFile(Menu.filepath)){
+            //if file is found
+            //tree.setRoot
+            playGame();
+        }else{
+            defaultStart();
+        }
+    }
+    private void defaultStart(){
         //Greetings
         System.out.println(getTime() + "\n");
 
@@ -25,7 +34,10 @@ public class Game {
         System.out.println("Which animal do you like most?");
         Animal animal = new Animal(askForAnimal());
         tree.addNode(animal);
+        BinaryTree.setRoot(new Node(animal));
         listOfAnimals.add(animal);
+    }
+    public void playDefault(Animal animal){
         System.out.println(
                 "Wonderful! I've learned so much about animals!" +
                         "Let's play a game!\n" +
@@ -34,8 +46,8 @@ public class Game {
 
         new Scanner(System.in).nextLine(); //consumes the \n
 
-        animal = tree.getAnimalRoot();
-        System.out.println("Is it " + animal.toString() + "?");
+        BinaryTree.setRoot(new Node(animal));
+        System.out.println("Is it " + animal + "?");
 
         if(!userInputs()){
             System.out.println("I give up. What animal do you have in mind?");
@@ -43,7 +55,7 @@ public class Game {
             listOfAnimals.add(animal2);
 
             String fact = addFact(animal,animal2);
-            tree.setRoot(new Node(fact));
+            BinaryTree.setRoot(new Node(fact));
             tree = new BinaryTree(tree.getRoot());
         }else{
             System.out.println("AI Wins!");
@@ -62,7 +74,7 @@ public class Game {
         tree = TraverseBinaryTree.traverseTree(tree, tree.getRoot());
     }
 
-    public void addListOfAnimals(Animal animal) {
+    public static void addListOfAnimals(Animal animal) {
         listOfAnimals.add(animal);
     }
 
