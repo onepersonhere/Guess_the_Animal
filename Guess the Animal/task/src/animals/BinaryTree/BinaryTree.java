@@ -120,4 +120,154 @@ public class BinaryTree {
             getParentNode(animal,current.getParent());
         }
     }
+    public static void printTree(Node current, int depth){
+        String spaces = "";
+        for(int i = 0; i < depth; i++){
+            spaces += "  ";
+        }
+        System.out.println(spaces + current);
+        if(current.False != null){
+            printTree(current.False, depth+1);
+        }
+        if(current.True != null){
+            printTree(current.True, depth+1);
+        }
+    }
+
+    public static int countNodes(Node current, int num){
+        if(current != null){
+            num++;
+        }
+        if(current.True != null){
+            num = countNodes(current.True,num);
+        }
+        if(current.False != null){
+            num = countNodes(current.False,num);
+        }
+        return num;
+    }
+    public static int countAnimals(Node current, int num){
+        if(current != null) {
+            for (int i = 0; i < Game.getListOfAnimals().size(); i++) {
+                if (Game.getListOfAnimals().get(i).toString().equals(current.data)) {
+                    num++;
+                    break;
+                }
+            }
+        }
+        if(current.True != null){
+            num = countAnimals(current.True,num);
+        }
+        if(current.False != null){
+            num = countAnimals(current.False,num);
+        }
+        return num;
+    }
+    public static int countStatements(Node current, int num){
+        if(current != null) {
+            for (int i = 0; i < listOfFacts.size(); i++) {
+                if (current.data.equals(listOfFacts.get(i))) {
+                    num++;
+                    break;
+                }
+            }
+        }
+        if(current.True != null){
+            num = countStatements(current.True,num);
+        }
+        if(current.False != null){
+            num = countStatements(current.False,num);
+        }
+        return num;
+    }
+    public static int countHeight(Node current){
+        if (current == null)
+            return 0;
+        else {
+            /* compute the depth of each subtree */
+            int lDepth = countHeight(current.True);
+            int rDepth = countHeight(current.False);
+
+            /* use the larger one */
+            if (lDepth > rDepth)
+                return (lDepth + 1);
+            else
+                return (rDepth + 1);
+        }
+    }
+    public static int countMinDepth(Node current){
+        // Corner case. Should never be hit unless the code is
+        // called on root = NULL
+        if (current == null)
+            return 0;
+
+        // Base case : Leaf Node. This accounts for height = 1.
+        if (current.True == null && current.False == null)
+            return 1;
+
+        // If left subtree is NULL, recur for right subtree
+        if (current.True == null)
+            return countMinDepth(current.False) + 1;
+
+        // If right subtree is NULL, recur for left subtree
+        if (current.False == null)
+            return countMinDepth(current.True) + 1;
+
+        return Math.min(countMinDepth(current.True),
+                countMinDepth(current.False)) + 1;
+    }
+    private static double totalDepth(Node current, int num){
+        if (current == null) {
+            return 0;
+        }
+        return num +
+                totalDepth(current.True, num + 1) +
+                totalDepth(current.False, num + 1);
+    }
+
+    public static double countAvgDepth(Node current){
+        return totalDepth(current, 0) / Game.getListOfAnimals().size();
+    }
+
+    public static void findHiddenFact(Animal animal){
+        Node animalNode = findNode(root, animal.toString());
+        //System.out.println("Node: " + animalNode);
+        addHiddenFact(animalNode, animal);
+    }
+
+    private static Node findNode(Node node, String animal){
+        if(node != null){
+            if(node.data.equals(animal)){
+                return node;
+            } else {
+                Node foundNode = findNode(node.True, animal);
+                if(foundNode == null) {
+                    foundNode = findNode(node.False, animal);
+                }
+                return foundNode;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    private static void addHiddenFact(Node current, Animal animal) {
+        if(current.getParent() != null){
+            String qns = current.getParent().data;
+            boolean bool = false;
+            if(current.getParent().True == current){
+                bool = true;
+            }
+            for (int i = 0; i < listOfFacts.size(); i++) {
+                //System.out.println(listOfFacts.get(i));
+                if (listOfFacts.get(i).equals(qns)) {
+                    animal.addHiddenFactMap(qns, bool);
+                    break;
+                }
+            }
+            if(current.getParent() != root) {
+                addHiddenFact(current.getParent(), animal);
+            }
+        }
+    }
 }

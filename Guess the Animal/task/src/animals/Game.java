@@ -14,14 +14,13 @@ import static animals.Fact.addFact;
 import static animals.UserInputs.userInputs;
 
 public class Game {
-    public BinaryTree tree = new BinaryTree();
+    public static BinaryTree tree = new BinaryTree();
     private static List<Animal> listOfAnimals = new ArrayList<>();
 
     public Game(){ //build node
         if(FileINOUT.searchForFile(Menu.filepath)){
             //if file is found
             //tree.setRoot
-            playGame();
         }else{
             defaultStart();
         }
@@ -37,9 +36,9 @@ public class Game {
         BinaryTree.setRoot(new Node(animal));
         listOfAnimals.add(animal);
     }
-    public void playDefault(Animal animal){
+    public static void playDefault(){
+        Animal animal = listOfAnimals.get(0);
         System.out.println(
-                "Wonderful! I've learned so much about animals!" +
                         "Let's play a game!\n" +
                         "You think of an animal, and I guess it.\n" +
                         "Press enter when you're ready.");
@@ -70,7 +69,7 @@ public class Game {
                 "Press enter when you're ready.");
         new Scanner(System.in).nextLine(); //consumes the \n
 
-        System.out.println(listOfAnimals);
+        //System.out.println(listOfAnimals);
         tree = TraverseBinaryTree.traverseTree(tree, tree.getRoot());
     }
 

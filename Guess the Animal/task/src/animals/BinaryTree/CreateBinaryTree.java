@@ -18,12 +18,12 @@ public class CreateBinaryTree {
         Animal[] animals = new Animal[2];
         //find the animals from Map
         int m = 0;
-        System.out.println(listOfFacts);
+        //System.out.println(listOfFacts);
         String qns = listOfFacts.get(qnsIdx);
-        System.out.println(qnsAcctFor);
-        System.out.println(Game.getListOfAnimals() + "\n");
+        //System.out.println(qnsAcctFor);
+        //System.out.println(Game.getListOfAnimals() + "\n");
         for (int i = 0; i < Game.getListOfAnimals().size(); i++) {
-            System.out.println(Game.getListOfAnimals().get(i).factMap);
+            //System.out.println(Game.getListOfAnimals().get(i).factMap);
             if (Game.getListOfAnimals().get(i).factMap.containsKey(qns)) {
                 animals[m] = Game.getListOfAnimals().get(i);
                 m++;
@@ -32,6 +32,7 @@ public class CreateBinaryTree {
         Animal animal1 = animals[0];
         Animal animal2 = animals[1];
         //Node = root
+        System.out.println("Qns: " + qns);
         System.out.println("Animal 0: " + animal1 + " Animal 1: " + animal2 );
         if(animal1.factMap.get(qns)){ //qns is true
             currentNode.True = createTreeNodes(animal1,currentNode.True);
@@ -50,34 +51,33 @@ public class CreateBinaryTree {
         boolean b = true;
         //At the start, both child nodes will be animals
         System.out.println("For " + animal);
-        System.out.println(animal.getFact());
         System.out.println(animal.factMap);
         System.out.println(qnsAcctFor);
 
-        if(getSizeOfUnaccountedFacts(animal) > 1){
-            //if one of the child node has more than one unaccounted qns
-            //aka might have child node
-            System.out.println(animal + " has more than one fact");
-            for(int i = 0; i < listOfFacts.size();i++){ //foreach fact in list of facts
-                String qns = listOfFacts.get(i); //the key to the map
-                boolean bool = true;//check if the qns is alr accounted for
-                for(int j = 0; j < qnsAcctFor.size();j++){
-                    if(qns.equals(qnsAcctFor.get(j))){
-                        bool = false; //skip the qns that is accounted for
-                    }
-                }
-                if(BinaryTree.getRoot().data.equals(qns)){
-                    bool = false;
-                }
-                //if the qns == any from listOfFacts
-                if(bool && animal.factMap.containsKey(qns)) {
-                    qnsAcctFor.add(qns);
-                    currentNode = new Node(qns);//
-                    b = false;
-                    break;
+
+        //if one of the child node has more than one unaccounted qns
+        //aka might have child node
+        System.out.println(animal + " has more than one fact");
+        for(int i = 0; i < listOfFacts.size();i++){ //foreach fact in list of facts
+            String qns = listOfFacts.get(i); //the key to the map
+            boolean bool = true;//check if the qns is alr accounted for
+            for(int j = 0; j < qnsAcctFor.size();j++){
+                if(qns.equals(qnsAcctFor.get(j))){
+                    bool = false; //skip the qns that is accounted for
                 }
             }
+            if(qns.equals(BinaryTree.getRoot().data)){
+                bool = false;
+            }
+            //if the qns == any from listOfFacts
+            if(bool && animal.factMap.containsKey(qns)) {
+                qnsAcctFor.add(qns);
+                currentNode = new Node(qns);//
+                b = false;
+                break;
+            }
         }
+
         if(b) {
             //size of animal == 1 or 0
             currentNode = new Node(animal);

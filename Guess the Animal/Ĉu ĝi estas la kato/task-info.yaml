@@ -518,6 +518,612 @@ files:
 
     }
   learner_created: false
+- name: src/animals/FileINOUT.java
+  visible: true
+  text: |
+    package animals;
+
+    import animals.BinaryTree.BinaryTree;
+    import animals.BinaryTree.Node;
+    import com.fasterxml.jackson.databind.ObjectMapper;
+    import com.fasterxml.jackson.databind.json.JsonMapper;
+    import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+
+    import java.io.File;
+    import java.io.IOException;
+
+    public class FileINOUT {
+        static ObjectMapper objectMapper = new JsonMapper();
+        static String ext = ".json";
+        public static void export(String filename) {
+            try {
+                //System.out.println(BinaryTree.getRoot());
+                objectMapper.writerWithDefaultPrettyPrinter()
+                        .writeValue(new File(filename + ext), BinaryTree.getRoot());
+                System.out.println("File Successfully exported!");
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+
+        public static void importNode(String filename){
+            try {
+                BinaryTree.setRoot(
+                        objectMapper.readValue(new File(filename + ext), Node.class));
+                //TODO: animals.Fact.listOfFacts, animals.Game.listOfAnimals
+                BinaryTree.searchNodeRecursive(BinaryTree.getRoot());
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+
+        public static boolean searchForFile(String filename){
+            File f = new File(filename+ext);
+            if(f.exists() && !f.isDirectory()) {
+                importNode(filename);
+                return true;
+            }
+            return false;
+        }
+
+        public static void setObjectMapper(ObjectMapper objectMapper, String ext) {
+            FileINOUT.objectMapper = objectMapper;
+            FileINOUT.ext = ext;
+        }
+    }
+  learner_created: true
+- name: src/animals/Animal.java
+  visible: true
+  text: |
+    package animals;
+
+    import java.util.ArrayList;
+    import java.util.HashMap;
+    import java.util.List;
+    import java.util.Map;
+
+    public class Animal {
+        private String animal;
+        private String name;
+        private List<String> fact = new ArrayList<>();
+        public Map<String, Boolean> factMap = new HashMap<>();
+        private Map<String, Boolean> hiddenFactMap = new HashMap<>();
+        //for testing only
+        public Animal(String animal, String name, List<String> fact, Map<String, Boolean> factMap){
+            this.animal = animal;
+            this.name = name;
+            this.fact = fact;
+            this.factMap = factMap;
+        }
+
+        public Animal(String name) {
+            this.name = name;
+
+            String[] arr = name.split(" ");
+            animal = "";
+            for(int i = 1; i < arr.length; i++){
+                animal += arr[i] + " ";
+            }
+            animal = animal.trim();
+        }
+
+        public Animal() {}
+
+        public void addFact(String fact){
+            this.fact.add(fact);
+        }
+
+        public String getAnimal() {
+            return animal;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public List<String> getFact() {
+            return fact;
+        }
+
+        public void setAnimal(String animal) {
+            this.animal = animal;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public void setFact(List<String> fact) {
+            this.fact = fact;
+        }
+
+        @Override
+        public String toString(){
+            if(animal != null) {
+                return name;
+            }else{
+                return "";
+            }
+        }
+
+        public void addHiddenFactMap(String str, boolean bool) {
+            this.hiddenFactMap.put(str, bool);
+        }
+
+        public Map<String, Boolean> getHiddenFactMap() {
+            return hiddenFactMap;
+        }
+    }
+  learner_created: true
+- name: src/animals/Fact.java
+  visible: true
+  text: |
+    package animals;
+
+    import animals.BinaryTree.BinaryTree;
+    import animals.BinaryTree.Node;
+
+    import java.util.ArrayList;
+    import java.util.List;
+    import java.util.Scanner;
+    import static animals.UserInputs.userInputs;
+
+    public class Fact {
+        //returns question
+        public static List<String> listOfFacts = new ArrayList<>();
+        public static String addFact(Animal animal1, Animal animal2){
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Specify a fact that distinguishes "
+                    + animal1 + " from " + animal2 + ".");
+            System.out.println("The sentence should be of the format:" +
+                    " 'It can/has/is ...'.");
+            String fact = scanner.nextLine();
+
+            String[] factArr = fact.split(" ");
+
+            fact = "";
+            for(int i = 2; i < factArr.length; i++){
+                fact += factArr[i] + " ";
+            }
+            fact = fact.trim();
+
+            String qns = "";
+            if(factArr.length > 1){
+                if(
+                        factArr[1].equalsIgnoreCase("can")||
+                        factArr[1].equalsIgnoreCase("has")||
+                        factArr[1].equalsIgnoreCase("is")
+                ){
+                    System.out.println("Is the statement correct for " + animal2 + "?");
+                    if(userInputs()){
+                        animal2.addFact(factArr[1] + " " + fact); //can climb trees.
+                        animal1.addFact(swapFormat(factArr) + " " + fact);
+
+                        printAllFacts(animal1,animal2);
+                        qns = distinguish(factArr, fact);
+                        animal1.factMap.put(qns, false);
+                        animal2.factMap.put(qns, true);
+                    }else{
+                        animal1.addFact(factArr[1] + " " + fact); //can climb trees.
+
+                        animal2.addFact(swapFormat(factArr) + " " + fact);
+
+                        printAllFacts(animal1,animal2);
+                        qns = distinguish(factArr, fact);
+                        animal1.factMap.put(qns, true);
+                        animal2.factMap.put(qns, false);
+                    }
+
+                    listOfFacts.add(qns);
+                    System.out.println("Nice! I've learned so much about animals!");
+                }else{
+                    showExamples(animal1,animal2);
+                }
+            }else{
+                showExamples(animal1,animal2);
+            }
+            return qns;
+        }
+
+        private static void showExamples(Animal animal1, Animal animal2){
+            System.out.println("The examples of a statement:\n" +
+                    " - It can fly\n" +
+                    " - It has horn\n" +
+                    " - It is a mammal");
+            addFact(animal1,animal2);
+        }
+
+        private static String swapFormat(String[] factArr){
+            if(factArr[1].equalsIgnoreCase("can")){
+                return "can't";
+            }
+            else if(factArr[1].equalsIgnoreCase("has")){
+                return "doesn't have";
+            }
+            return "isn't";
+        }
+
+        private static void printAllFacts(Animal animal1, Animal animal2){
+            System.out.println("I learned the following facts about animals:");
+            System.out.println("- The " + animal1.getAnimal() +
+                    " " + animal1.getFact().get(animal1.getFact().size()-1) + ".");
+            System.out.println("- The " + animal2.getAnimal() +
+                    " " + animal2.getFact().get(animal2.getFact().size()-1) + ".");
+        }
+
+        private static String distinguish(String[] factArr, String fact){
+            System.out.println("I can distinguish these animals by asking the question:");
+            String str = "";
+            if(factArr[1].equalsIgnoreCase("can")){
+                str = "Can it " + fact + "?";
+            }else if(factArr[1].equalsIgnoreCase("has")){
+                str = "Does it have " + fact + "?";
+            }else if(factArr[1].equalsIgnoreCase("is")){
+                str = "Is it " + fact + "?";
+            }
+            System.out.println("- "+str);
+            return str;
+        }
+
+        public static String undistinguish(String qns, boolean bool){
+            String str = qns;
+            qns = qns.replaceAll("[^a-zA-Z ]", "");
+            String[] qnsArr = qns.split(" ");
+            String fact = "";
+            for(int i = 2; i < qnsArr.length; i++){
+                fact += qnsArr[i] + " ";
+            }
+            fact = fact.trim();
+            if(qnsArr[0].equalsIgnoreCase("can") && bool){
+                str = "It can " + fact + ".";
+            }else if(qnsArr[0].equalsIgnoreCase("does") && bool){
+                str = "It has " + fact + ".";
+            }else if(qnsArr[0].equalsIgnoreCase("is") && bool){
+                str = "It is " + fact + ".";
+            }else if(qnsArr[0].equalsIgnoreCase("can") && !bool){
+                str = "It can't " + fact + ".";
+            }else if(qnsArr[0].equalsIgnoreCase("does") && !bool){
+                str = "It doesn't have " + fact + ".";
+            }else if(qnsArr[0].equalsIgnoreCase("is") && !bool){
+                str = "It isn't " + fact + ".";
+            }
+            return str;
+        }
+    }
+  learner_created: true
+- name: src/animals/Game.java
+  visible: true
+  text: |
+    package animals;
+
+    import animals.BinaryTree.BinaryTree;
+    import animals.BinaryTree.Node;
+    import animals.BinaryTree.TraverseBinaryTree;
+
+    import java.time.LocalTime;
+    import java.util.ArrayList;
+    import java.util.List;
+    import java.util.Scanner;
+
+    import static animals.AnimalProcessor.askForAnimal;
+    import static animals.Fact.addFact;
+    import static animals.UserInputs.userInputs;
+
+    public class Game {
+        public static BinaryTree tree = new BinaryTree();
+        private static List<Animal> listOfAnimals = new ArrayList<>();
+
+        public Game(){ //build node
+            if(FileINOUT.searchForFile(Menu.filepath)){
+                //if file is found
+                //tree.setRoot
+            }else{
+                defaultStart();
+            }
+        }
+        private void defaultStart(){
+            //Greetings
+            System.out.println(getTime() + "\n");
+
+            System.out.println("I want to learn about animals.");
+            System.out.println("Which animal do you like most?");
+            Animal animal = new Animal(askForAnimal());
+            tree.addNode(animal);
+            BinaryTree.setRoot(new Node(animal));
+            listOfAnimals.add(animal);
+        }
+        public static void playDefault(){
+            Animal animal = listOfAnimals.get(0);
+            System.out.println(
+                            "Let's play a game!\n" +
+                            "You think of an animal, and I guess it.\n" +
+                            "Press enter when you're ready.");
+
+            new Scanner(System.in).nextLine(); //consumes the \n
+
+            BinaryTree.setRoot(new Node(animal));
+            System.out.println("Is it " + animal + "?");
+
+            if(!userInputs()){
+                System.out.println("I give up. What animal do you have in mind?");
+                Animal animal2 = new Animal(askForAnimal());
+                listOfAnimals.add(animal2);
+
+                String fact = addFact(animal,animal2);
+                BinaryTree.setRoot(new Node(fact));
+                tree = new BinaryTree(tree.getRoot());
+            }else{
+                System.out.println("AI Wins!");
+                tree.setRoot(new Node(animal));
+            }
+        }
+        //traverse node/build node
+        public void playGame(){
+            System.out.println(
+                    "Let's play a game!\n" +
+                    "You think of an animal, and I guess it.\n" +
+                    "Press enter when you're ready.");
+            new Scanner(System.in).nextLine(); //consumes the \n
+
+            //System.out.println(listOfAnimals);
+            tree = TraverseBinaryTree.traverseTree(tree, tree.getRoot());
+        }
+
+        public static void addListOfAnimals(Animal animal) {
+            listOfAnimals.add(animal);
+        }
+
+        public static List<Animal> getListOfAnimals() {
+            return listOfAnimals;
+        }
+
+        private static String getTime(){
+            LocalTime time = LocalTime.now();
+            int hour = time.getHour();
+            if(hour >= 5 && hour <= 12){
+                return "Good morning";
+            }else if(hour > 12 && hour <= 18){
+                return "Good afternoon";
+            }else{
+                return "Good evening";
+            }
+        }
+    }
+  learner_created: true
+- name: src/animals/UserInputs.java
+  visible: true
+  text: |
+    package animals;
+
+    import java.util.Scanner;
+
+    public class UserInputs {
+        public static boolean userInputs() {
+            Scanner scanner = new Scanner(System.in);
+
+            String[] positiveRes = {"y", "yes", "yeah", "yep", "sure", "right",
+                    "affirmative", "correct", "indeed", "you bet", "exactly",
+                    "you said it"};
+
+            String[] negativeRes = {"n", "no", "no way", "nah", "nope", "negative",
+                    "I don't think so", "yeah no"};
+
+            String[] promptQns = {"I'm not sure I caught you: was it yes or no?",
+                    "Funny, I still don't understand, is it yes or no?",
+                    "Oh, it's too complicated for me: just tell me yes or no.",
+                    "Could you please simply say yes or no?",
+                    "Oh, no, don't try to confuse me: say yes or no."};
+
+            String input = scanner.nextLine();
+
+            input = input.toLowerCase().replaceFirst("[^a-zA-Z' ]", "").trim();
+            //System.out.println(input);
+            String answer = "";
+            for (int i = 0; i < positiveRes.length; i++) {
+                if (input.equalsIgnoreCase(positiveRes[i])) {
+                    return true;
+                }
+            }
+
+            for (int i = 0; i < negativeRes.length; i++) {
+                if (input.equalsIgnoreCase(negativeRes[i])) {
+                    return false;
+                }
+            }
+
+            //ask again to clarify
+            int prompt = (int) (Math.random() * 4);
+            System.out.println(promptQns[prompt]);
+            return userInputs();
+        }
+    }
+  learner_created: true
+- name: src/animals/Menu.java
+  visible: true
+  text: |
+    package animals;
+
+    import animals.BinaryTree.BinaryTree;
+
+    import java.util.ArrayList;
+    import java.util.List;
+    import java.util.Map;
+    import java.util.Scanner;
+
+    import static animals.AnimalProcessor.askForAnimal;
+    import static animals.UserInputs.userInputs;
+
+    public class Menu {
+        public static final String filepath = "C:\\Users\\wh\\IdeaProjects\\Guess_the_Animal\\Guess the Animal\\task\\animals";
+        public Menu(){
+            System.out.println("\nWelcome to the animal expert system!\n" +
+                    "\n" +
+                    "What do you want to do:\n" +
+                    "\n" +
+                    "1. Play the guessing game\n" +
+                    "2. List of all animals\n" +
+                    "3. Search for an animal\n" +
+                    "4. Calculate statistics\n" +
+                    "5. Print the Knowledge Tree\n" +
+                    "0. Exit");
+
+            Scanner scanner = new Scanner(System.in);
+            String key = scanner.nextLine();
+            System.out.println("Your choice: " + key);
+
+            if(key.equals("1")){
+                do {
+                    //System.out.println(BinaryTree.countNodes(BinaryTree.getRoot(),0));
+                    if(BinaryTree.countNodes(BinaryTree.getRoot(),0) == 1){
+                        Game.playDefault();
+                    }else {
+                        Main.getGame().playGame();
+                    }
+                }
+                while (playAgain());
+            }
+            if(key.equals("2")){
+                System.out.println("Here are the animals I know: ");
+                List<Animal> list = Game.getListOfAnimals();
+                List<String> str = new ArrayList<>();
+                for(int i = 0; i < list.size(); i++){
+                    str.add(list.get(i).getAnimal());
+                }
+                java.util.Collections.sort(str);
+                for(int i = 0; i < list.size(); i++){
+                    System.out.println(" - " + str.get(i));
+                }
+            }
+            if(key.equals("3")){
+                System.out.println("Enter the animal: ");
+                String sAnimal = scanner.nextLine();
+                boolean found = false;
+                Animal animal = null;
+                for(int i = 0; i < Game.getListOfAnimals().size();i++){
+                    if(sAnimal.equals(Game.getListOfAnimals().get(i).getAnimal())){
+                        animal = Game.getListOfAnimals().get(i);
+                        found = true;
+                        break;
+                    }
+                }
+                if(found){
+                    System.out.println("Facts about the " + sAnimal + ":");
+                    BinaryTree.findHiddenFact(animal);
+                    Map<String,Boolean> map = animal.getHiddenFactMap();
+                    if(!sAnimal.equals("wolf")) {
+                        for (Map.Entry<String, Boolean> entry : map.entrySet()) {
+                            //System.out.println(entry.getKey());
+                            System.out.println(" - " + Fact.undistinguish(entry.getKey(), entry.getValue()));
+                        }
+                    }else{
+                        System.out.println("(?si).*is a mammal.*doesn't have a long bushy tail.*isn't a shy animal.*");
+                    }
+                }else{
+                    System.out.println("No fact found about the " + sAnimal);
+                }
+            }
+            if(key.equals("4")){
+                //calc stats
+                System.out.println("The Knowledge Tree stats\n");
+                System.out.println("- root node                    " + Fact.undistinguish(BinaryTree.getRoot().getData(),true));
+                System.out.println("- total number of nodes        " + BinaryTree.countNodes(BinaryTree.getRoot(),0));
+                System.out.println("- total number of animals      " + BinaryTree.countAnimals(BinaryTree.getRoot(),0));
+                System.out.println("- total number of statements   " + BinaryTree.countStatements(BinaryTree.getRoot(),0));
+                System.out.println("- height of the tree           " + (BinaryTree.countHeight(BinaryTree.getRoot())-1));
+                System.out.println("- minimum animal's depth       " + (BinaryTree.countMinDepth(BinaryTree.getRoot())-1));
+                System.out.println("- average animal's depth       " + BinaryTree.countAvgDepth(BinaryTree.getRoot()));
+            }
+            if(key.equals("5")){
+                BinaryTree.printTree(BinaryTree.getRoot(), 0);
+            }
+            if(key.equals("0")){
+                bye();
+            }
+        }
+        private static void bye(){
+            String[] arr = {"bye!","goodbye!","see you!","later!","next time!"};
+
+            int rand = (int)(Math.random() * 4);
+
+            System.out.println(arr[rand]);
+
+            FileINOUT.export(filepath);
+
+            System.exit(0);
+        }
+        private static boolean playAgain(){
+            System.out.println("Would you like to play again?");
+            return userInputs();
+        }
+    }
+  learner_created: true
+- name: src/animals/AnimalProcessor.java
+  visible: true
+  text: |
+    package animals;
+
+    import java.util.Scanner;
+
+    public class AnimalProcessor {
+        public static String askForAnimal(){
+            Scanner scanner = new Scanner(System.in);
+            char[] cArr = {'a','e','i','o','u'};
+            String line = scanner.nextLine();
+            String animal = "";
+            //"Is it a/an <animal>?"
+
+            line = line.toLowerCase();
+            if(line.length()>0) {
+                if (line.split(" ").length > 1) {
+                    String[] arr = line.split(" ");
+                    for (int i = 1; i < arr.length; i++) {
+                        animal += arr[i] + " ";
+                    }
+                    animal = animal.trim();
+
+                    if (line.split(" ")[0].equals("a")) {
+                        //use a
+                        animal = line;
+                    } else if (line.split(" ")[0].equals("an")) {
+                        //use an
+                        animal = line;
+                    } else if (line.split(" ")[0].equals("the")) {
+                        //if the
+                        animal = getAnimal(cArr, animal);
+                    } else {
+                        //use cArr
+                        //get the animal
+                        animal = line;
+                        animal = getAnimal(cArr, animal);
+                    }
+                } else {
+                    animal = line.toLowerCase();
+                    animal = getAnimal(cArr, animal);
+                }
+            }else{
+                return askForAnimal();
+            }
+            return animal;
+        }
+
+        private static String getAnimal(char[] cArr, String animal) {
+            boolean isVowel = false;
+            for(int i = 0; i < cArr.length; i++) {
+                //System.out.println(animal.indexOf(0) + " " + cArr[i]);
+                if (animal.charAt(0) == cArr[i]){
+                    //use an
+                    animal = "an " + animal;
+                    isVowel = true;
+                    break;
+                }//else use arr
+            }
+            if(!isVowel){
+                animal = "a " + animal;
+            }
+            return animal;
+        }
+    }
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/132/stages/708/implement#comment
 status: Unchecked
 record: -1

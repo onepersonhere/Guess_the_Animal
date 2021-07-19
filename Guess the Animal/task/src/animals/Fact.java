@@ -37,23 +37,21 @@ public class Fact {
                 System.out.println("Is the statement correct for " + animal2 + "?");
                 if(userInputs()){
                     animal2.addFact(factArr[1] + " " + fact); //can climb trees.
-                    animal1.addFact(checkFormat(factArr) + " " + fact);
+                    animal1.addFact(swapFormat(factArr) + " " + fact);
 
                     printAllFacts(animal1,animal2);
                     qns = distinguish(factArr, fact);
                     animal1.factMap.put(qns, false);
                     animal2.factMap.put(qns, true);
-                    BinaryTree.setRoot(new Node(qns));
                 }else{
                     animal1.addFact(factArr[1] + " " + fact); //can climb trees.
 
-                    animal2.addFact(checkFormat(factArr) + " " + fact);
+                    animal2.addFact(swapFormat(factArr) + " " + fact);
 
                     printAllFacts(animal1,animal2);
                     qns = distinguish(factArr, fact);
                     animal1.factMap.put(qns, true);
                     animal2.factMap.put(qns, false);
-                    BinaryTree.setRoot(new Node(qns));
                 }
 
                 listOfFacts.add(qns);
@@ -75,7 +73,7 @@ public class Fact {
         addFact(animal1,animal2);
     }
 
-    private static String checkFormat(String[] factArr){
+    private static String swapFormat(String[] factArr){
         if(factArr[1].equalsIgnoreCase("can")){
             return "can't";
         }
@@ -104,6 +102,31 @@ public class Fact {
             str = "Is it " + fact + "?";
         }
         System.out.println("- "+str);
+        return str;
+    }
+
+    public static String undistinguish(String qns, boolean bool){
+        String str = qns;
+        qns = qns.replaceAll("[^a-zA-Z ]", "");
+        String[] qnsArr = qns.split(" ");
+        String fact = "";
+        for(int i = 2; i < qnsArr.length; i++){
+            fact += qnsArr[i] + " ";
+        }
+        fact = fact.trim();
+        if(qnsArr[0].equalsIgnoreCase("can") && bool){
+            str = "It can " + fact + ".";
+        }else if(qnsArr[0].equalsIgnoreCase("does") && bool){
+            str = "It has " + fact + ".";
+        }else if(qnsArr[0].equalsIgnoreCase("is") && bool){
+            str = "It is " + fact + ".";
+        }else if(qnsArr[0].equalsIgnoreCase("can") && !bool){
+            str = "It can't " + fact + ".";
+        }else if(qnsArr[0].equalsIgnoreCase("does") && !bool){
+            str = "It doesn't have " + fact + ".";
+        }else if(qnsArr[0].equalsIgnoreCase("is") && !bool){
+            str = "It isn't " + fact + ".";
+        }
         return str;
     }
 }

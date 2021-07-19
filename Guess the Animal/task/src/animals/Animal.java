@@ -10,6 +10,7 @@ public class Animal {
     private String name;
     private List<String> fact = new ArrayList<>();
     public Map<String, Boolean> factMap = new HashMap<>();
+    private Map<String, Boolean> hiddenFactMap = new HashMap<>();
     //for testing only
     public Animal(String animal, String name, List<String> fact, Map<String, Boolean> factMap){
         this.animal = animal;
@@ -66,5 +67,13 @@ public class Animal {
         }else{
             return "";
         }
+    }
+
+    public void addHiddenFactMap(String str, boolean bool) {
+        this.hiddenFactMap.put(str, bool);
+    }
+
+    public Map<String, Boolean> getHiddenFactMap() {
+        return hiddenFactMap;
     }
 }

@@ -43,7 +43,6 @@ public class TraverseBinaryTree {
         //receive answer yes or no
         //nav down the tree
         if(!bool && !checkIfAnimal(currentNode.data)) {
-            System.out.println("1");
             System.out.println(currentNode.data);
             if (userInputs()) { //here its eating an input
                 //if yes

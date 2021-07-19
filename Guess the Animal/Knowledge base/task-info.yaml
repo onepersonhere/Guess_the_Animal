@@ -796,9 +796,9 @@ files:
 - name: src/animals/Menu.java
   visible: true
   learner_created: true
-- name: animals.json
-  visible: true
-  learner_created: true
 feedback_link: https://hyperskill.org/projects/132/stages/707/implement#comment
-status: Unchecked
-record: -1
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Mon, 19 Jul 2021 09:53:15 UTC
+record: 5
