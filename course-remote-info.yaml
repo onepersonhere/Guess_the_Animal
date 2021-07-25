@@ -3,7 +3,7 @@ hyperskill_project:
   ide_files: https://stepik.org/media/attachments/lesson/418381/additional_files.json
   is_template_based: false
   use_ide: true
-update_date: Mon, 19 Jul 2021 08:59:12 UTC
+update_date: Sat, 24 Jul 2021 23:25:55 UTC
 stages:
 - id: 703
   step: 11079
@@ -22,7 +22,7 @@ stages:
   is_completed: true
 - id: 708
   step: 11084
-  is_completed: false
+  is_completed: true
 topics:
   0:
   - title: Write, compile, and run
@@ -103,8 +103,6 @@ topics:
     theory_id: 10982
   - title: The main method
     theory_id: 3489
-  - title: Overloading
-    theory_id: 3525
   - title: Functional decomposition
     theory_id: 10570
   - title: Primitive and reference types
@@ -119,8 +117,6 @@ topics:
     theory_id: 3523
   - title: Processing strings
     theory_id: 3551
-  - title: Final variables
-    theory_id: 7427
   - title: Errors in programs
     theory_id: 3536
   - title: What is an exception
@@ -149,14 +145,16 @@ topics:
     theory_id: 3624
   - title: The List interface
     theory_id: 3581
+  - title: Interface
+    theory_id: 3615
+  - title: Comparable
+    theory_id: 14456
   - title: Defining classes
     theory_id: 3618
   - title: Constructor
     theory_id: 3535
   - title: Instance methods
     theory_id: 3495
-  - title: Multiple constructors
-    theory_id: 3538
   - title: Package
     theory_id: 3621
   - title: Access modifiers
@@ -165,26 +163,14 @@ topics:
     theory_id: 3599
   - title: Inheritance
     theory_id: 3583
-  - title: The keyword super
-    theory_id: 3588
   - title: Protected modifier
     theory_id: 6692
   - title: Referencing subclass objects
     theory_id: 3585
   - title: The Object class
     theory_id: 3596
-  - title: Annotations basics
-    theory_id: 3622
   - title: Objects
     theory_id: 4727
-  - title: Static members
-    theory_id: 3534
-  - title: Hiding and overriding
-    theory_id: 3572
-  - title: Polymorphism
-    theory_id: 3587
-  - title: Interface
-    theory_id: 3615
   - title: Boxing and unboxing
     theory_id: 3595
   1:

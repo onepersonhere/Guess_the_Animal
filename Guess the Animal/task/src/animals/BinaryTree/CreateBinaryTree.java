@@ -31,9 +31,8 @@ public class CreateBinaryTree {
         }
         Animal animal1 = animals[0];
         Animal animal2 = animals[1];
-        //Node = root
-        System.out.println("Qns: " + qns);
-        System.out.println("Animal 0: " + animal1 + " Animal 1: " + animal2 );
+        //System.out.println("Qns: " + qns);
+        //System.out.println("Animal 0: " + animal1 + " Animal 1: " + animal2 );
         if(animal1.factMap.get(qns)){ //qns is true
             currentNode.True = createTreeNodes(animal1,currentNode.True);
             currentNode.False = createTreeNodes(animal2,currentNode.False);
@@ -50,14 +49,14 @@ public class CreateBinaryTree {
     private static Node createTreeNodes(Animal animal, Node currentNode){
         boolean b = true;
         //At the start, both child nodes will be animals
-        System.out.println("For " + animal);
-        System.out.println(animal.factMap);
-        System.out.println(qnsAcctFor);
+        //System.out.println("For " + animal);
+        //System.out.println(animal.factMap);
+        //System.out.println(qnsAcctFor);
 
 
         //if one of the child node has more than one unaccounted qns
         //aka might have child node
-        System.out.println(animal + " has more than one fact");
+        //System.out.println(animal + " has more than one fact");
         for(int i = 0; i < listOfFacts.size();i++){ //foreach fact in list of facts
             String qns = listOfFacts.get(i); //the key to the map
             boolean bool = true;//check if the qns is alr accounted for
@@ -82,7 +81,7 @@ public class CreateBinaryTree {
             //size of animal == 1 or 0
             currentNode = new Node(animal);
         }
-        System.out.println("Current Node: " + currentNode +"\n");
+        //System.out.println("Current Node: " + currentNode +"\n");
         currentNode = ifItsAQns(currentNode);
         return currentNode;
     }

@@ -29,8 +29,9 @@ public class Game {
         //Greetings
         System.out.println(getTime() + "\n");
 
-        System.out.println("I want to learn about animals.");
-        System.out.println("Which animal do you like most?");
+        System.out.println(Main.appResource.getString("animal.wantLearn"));
+        System.out.println(Main.appResource.getString("animal.askFavorite"));
+
         Animal animal = new Animal(askForAnimal());
         tree.addNode(animal);
         BinaryTree.setRoot(new Node(animal));
@@ -38,39 +39,40 @@ public class Game {
     }
     public static void playDefault(){
         Animal animal = listOfAnimals.get(0);
-        System.out.println(
-                        "Let's play a game!\n" +
-                        "You think of an animal, and I guess it.\n" +
-                        "Press enter when you're ready.");
+        System.out.println(Main.appResource.getString("game.letsPlay"));
+        System.out.println(Main.appResource.getString("game.think"));
+        System.out.println(Main.appResource.getString("game.enter"));
 
         new Scanner(System.in).nextLine(); //consumes the \n
 
         BinaryTree.setRoot(new Node(animal));
-        System.out.println("Is it " + animal + "?");
+        System.out.println(Main.appResource2.getString("animal.question")
+                .replace("{0}", animal.toString()));
 
         if(!userInputs()){
-            System.out.println("I give up. What animal do you have in mind?");
+            System.out.println(Main.appResource.getString("game.giveUp"));
             Animal animal2 = new Animal(askForAnimal());
             listOfAnimals.add(animal2);
 
             String fact = addFact(animal,animal2);
             BinaryTree.setRoot(new Node(fact));
-            tree = new BinaryTree(tree.getRoot());
+            tree = new BinaryTree(BinaryTree.getRoot());
         }else{
-            System.out.println("AI Wins!");
-            tree.setRoot(new Node(animal));
+            String[] winArr = Main.appResource.getString("game.win").split("\f");
+            int rand = (int) (Math.random() * winArr.length);
+            System.out.println(winArr[rand]);
+            BinaryTree.setRoot(new Node(animal));
         }
     }
     //traverse node/build node
     public void playGame(){
-        System.out.println(
-                "Let's play a game!\n" +
-                "You think of an animal, and I guess it.\n" +
-                "Press enter when you're ready.");
+        System.out.println(Main.appResource.getString("game.letsPlay"));
+        System.out.println(Main.appResource.getString("game.think"));
+        System.out.println(Main.appResource.getString("game.enter"));
         new Scanner(System.in).nextLine(); //consumes the \n
 
         //System.out.println(listOfAnimals);
-        tree = TraverseBinaryTree.traverseTree(tree, tree.getRoot());
+        tree = TraverseBinaryTree.traverseTree(tree, BinaryTree.getRoot());
     }
 
     public static void addListOfAnimals(Animal animal) {
@@ -85,11 +87,11 @@ public class Game {
         LocalTime time = LocalTime.now();
         int hour = time.getHour();
         if(hour >= 5 && hour <= 12){
-            return "Good morning";
+            return Main.appResource.getString("greeting.morning");
         }else if(hour > 12 && hour <= 18){
-            return "Good afternoon";
+            return Main.appResource.getString("greeting.afternoon");
         }else{
-            return "Good evening";
+            return Main.appResource.getString("greeting.night");
         }
     }
 }

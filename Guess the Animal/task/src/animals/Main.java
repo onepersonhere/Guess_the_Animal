@@ -1,18 +1,22 @@
 package animals;
 
-import animals.BinaryTree.BinaryTree;
-import animals.BinaryTree.TraverseBinaryTree;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 
-import java.time.LocalTime;
-import static animals.UserInputs.userInputs;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 
 public class Main {
     private static Game game;
     private static String type = "JSON";
+    public static ResourceBundle appResource = ResourceBundle.getBundle("messages");
+    public static ResourceBundle appResource2 = ResourceBundle.getBundle("animals.res.App");
+    public static String language;
     public static void main(String[] args){
+        language = Locale.getDefault().getLanguage();
+
         for(int i = 0; i < args.length; i++){
             if(args[i].equals("-type")){
                 type = args[i+1];
@@ -40,4 +44,5 @@ public class Main {
             FileINOUT.setObjectMapper(new JsonMapper(), ".json");
         }
     }
+
 }

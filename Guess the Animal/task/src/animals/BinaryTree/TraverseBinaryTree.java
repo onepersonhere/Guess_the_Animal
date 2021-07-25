@@ -98,10 +98,13 @@ public class TraverseBinaryTree {
     }
 
     private static boolean checkIfCorrect(String animal) {
-        System.out.println("Is it " + animal + "?");
+        System.out.println(Main.appResource2.getString("animal.question")
+                .replace("{0}", animal));
         if(userInputs()){ //correct Animal
             //if the animal is true, AI won
-            System.out.println("AI won!");
+            String[] winArr = Main.appResource.getString("game.win").split("\f");
+            int rand = (int) (Math.random() * winArr.length);
+            System.out.println(winArr[rand]);
             return true;
         }
         return false;
@@ -109,7 +112,7 @@ public class TraverseBinaryTree {
 
     private static BinaryTree unknownAnimal(Animal animal){
         //ask a new qns to create a new tree.
-        System.out.println("I give up. What animal do you have in mind?");
+        System.out.println(Main.appResource.getString("game.giveUp"));
         Animal animal2 = new Animal(askForAnimal());
         Game.addListOfAnimals(animal2);
 

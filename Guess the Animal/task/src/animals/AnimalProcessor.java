@@ -1,6 +1,7 @@
 package animals;
 
 import java.util.Scanner;
+import java.util.function.UnaryOperator;
 
 public class AnimalProcessor {
     public static String askForAnimal(){
@@ -45,6 +46,7 @@ public class AnimalProcessor {
     }
 
     private static String getAnimal(char[] cArr, String animal) {
+        /*
         boolean isVowel = false;
         for(int i = 0; i < cArr.length; i++) {
             //System.out.println(animal.indexOf(0) + " " + cArr[i]);
@@ -57,7 +59,9 @@ public class AnimalProcessor {
         }
         if(!isVowel){
             animal = "a " + animal;
-        }
+        }*/
+        var animalName = (UnaryOperator) Main.appResource2.getObject("animal.name");
+        animal = (String) animalName.apply(animal);
         return animal;
     }
 }

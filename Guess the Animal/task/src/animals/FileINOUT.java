@@ -8,25 +8,30 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 
 public class FileINOUT {
     static ObjectMapper objectMapper = new JsonMapper();
     static String ext = ".json";
+    static String lang = "";
     public static void export(String filename) {
+        if(!Locale.getDefault().getLanguage().equalsIgnoreCase("en"))lang = "_" + Main.language;
+
         try {
             //System.out.println(BinaryTree.getRoot());
             objectMapper.writerWithDefaultPrettyPrinter()
-                    .writeValue(new File(filename + ext), BinaryTree.getRoot());
-            System.out.println("File Successfully exported!");
+                    .writeValue(new File(filename + lang + ext), BinaryTree.getRoot());
+            System.out.println("Debug: File Successfully exported!");
         }catch (IOException e){
             e.printStackTrace();
         }
     }
 
     public static void importNode(String filename){
+        if(!Locale.getDefault().getLanguage().equalsIgnoreCase("en"))lang = "_" + Main.language;
         try {
             BinaryTree.setRoot(
-                    objectMapper.readValue(new File(filename + ext), Node.class));
+                    objectMapper.readValue(new File(filename + lang + ext), Node.class));
             //TODO: animals.Fact.listOfFacts, animals.Game.listOfAnimals
             BinaryTree.searchNodeRecursive(BinaryTree.getRoot());
         }catch (IOException e){
@@ -35,7 +40,8 @@ public class FileINOUT {
     }
 
     public static boolean searchForFile(String filename){
-        File f = new File(filename+ext);
+        if(!Locale.getDefault().getLanguage().equalsIgnoreCase("en"))lang = "_" + Main.language;
+        File f = new File(filename + lang + ext);
         if(f.exists() && !f.isDirectory()) {
             importNode(filename);
             return true;

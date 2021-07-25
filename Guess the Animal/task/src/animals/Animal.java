@@ -21,13 +21,19 @@ public class Animal {
 
     public Animal(String name) {
         this.name = name;
-
+        System.out.println(name);
         String[] arr = name.split(" ");
-        animal = "";
-        for(int i = 1; i < arr.length; i++){
-            animal += arr[i] + " ";
+        if(arr.length > 1 &&
+                (arr[0].equalsIgnoreCase("a") ||
+                        arr[0].equalsIgnoreCase("an"))) {
+            animal = "";
+            for (int i = 1; i < arr.length; i++) {
+                animal += arr[i] + " ";
+            }
+            animal = animal.trim();
+        }else{
+            animal = name;
         }
-        animal = animal.trim();
     }
 
     public Animal() {}

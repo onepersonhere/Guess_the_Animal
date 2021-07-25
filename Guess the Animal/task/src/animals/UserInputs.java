@@ -6,18 +6,11 @@ public class UserInputs {
     public static boolean userInputs() {
         Scanner scanner = new Scanner(System.in);
 
-        String[] positiveRes = {"y", "yes", "yeah", "yep", "sure", "right",
-                "affirmative", "correct", "indeed", "you bet", "exactly",
-                "you said it"};
+        String[] positiveRes = Main.appResource2.getStringArray("response.positive");
 
-        String[] negativeRes = {"n", "no", "no way", "nah", "nope", "negative",
-                "I don't think so", "yeah no"};
+        String[] negativeRes = Main.appResource2.getStringArray("response.negative");
 
-        String[] promptQns = {"I'm not sure I caught you: was it yes or no?",
-                "Funny, I still don't understand, is it yes or no?",
-                "Oh, it's too complicated for me: just tell me yes or no.",
-                "Could you please simply say yes or no?",
-                "Oh, no, don't try to confuse me: say yes or no."};
+        String[] promptQns = Main.appResource.getString("ask.again").split("\f");
 
         String input = scanner.nextLine();
 
@@ -37,7 +30,7 @@ public class UserInputs {
         }
 
         //ask again to clarify
-        int prompt = (int) (Math.random() * 4);
+        int prompt = (int) (Math.random() * promptQns.length);
         System.out.println(promptQns[prompt]);
         return userInputs();
     }

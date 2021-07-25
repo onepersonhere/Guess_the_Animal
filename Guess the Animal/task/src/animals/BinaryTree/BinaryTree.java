@@ -4,6 +4,8 @@ import animals.Animal;
 import animals.Game;
 import animals.Main;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 import static animals.Fact.listOfFacts;
@@ -82,8 +84,7 @@ public class BinaryTree {
         //TODO: Create NEW animals
         if (current.data != null) {
             //add to the animallist
-            String[] arr = current.data.split(" ");
-            if(arr[0].equals("a") || arr[0].equals("an")){
+            if(current.True == null && current.False == null){
                 //is an animal
                 Animal animal = new Animal(current.data);
                 getParentNode(animal, current);
@@ -217,6 +218,7 @@ public class BinaryTree {
                 countMinDepth(current.False)) + 1;
     }
     private static double totalDepth(Node current, int num){
+        //total depth of each animal
         if (current == null) {
             return 0;
         }
@@ -226,7 +228,9 @@ public class BinaryTree {
     }
 
     public static double countAvgDepth(Node current){
-        return totalDepth(current, 0) / Game.getListOfAnimals().size();
+        BigDecimal bd = new BigDecimal((totalDepth(current, 0)-1) / Game.getListOfAnimals().size())
+                .setScale(1, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
     public static void findHiddenFact(Animal animal){
